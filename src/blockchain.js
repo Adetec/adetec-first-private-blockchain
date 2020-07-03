@@ -123,7 +123,29 @@ class Blockchain {
     submitStar(address, message, signature, star) {
         let self = this;
         return new Promise(async (resolve, reject) => {
-            
+            // Get the time from the message sent
+            const messageTime = parseInt(message.split(':')[1])
+            // Get the current time
+            const currentTime = parseInt(new Date().getTime().toString().slice(0, -3))
+            // Check if the time elapsed is less than 5 minutes
+            if (currentTime - messageTime <= 300000) {
+                // Verify the message with wallet address and signature
+                if (bitcoinMessage.verify(message, address, signature)) {
+                    const data = {
+                        owner: address,
+                        star: star
+                    }
+                    // Create the block and add it to the chain
+                    const newBlock = new BlockClass.Block(data)
+                    // Resolve with the block added
+                    resolve(await self._addBlock(newBlock))
+                }
+                // If not verified:
+                reject(Error('Message not verified'))
+            }
+            // If the time elapsed is more than 5 minutes
+            reject(Error('Sorry! Time out'))
+
         });
     }
 
