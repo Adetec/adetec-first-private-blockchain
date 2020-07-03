@@ -74,6 +74,8 @@ class Block {
         // Resolve with the data if the object isn't the Genesis block
         if (!self.height == 0) {
             return parsedData
+        } else {
+            return {error: `It's the Genesis block with height ${self.height}`}
         }
 
     }
