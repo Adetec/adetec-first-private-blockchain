@@ -62,9 +62,30 @@ class Blockchain {
      * that this method is a private method. 
      */
     _addBlock(block) {
-        let self = this;
+        const self = this
+        let chainLength = self.chain.length
         return new Promise(async (resolve, reject) => {
+           // Check if there's a previous block
+           if (!self.height == 0) {
+               // retreive the previous block hash
+               block.previousBlockHash = self.chain[chainLength - 1].hash
+           }
+           // Set the height
+           block.height = chainLength
+           // Set the timestamp
+           block.time = new Date().getTime().toString().slice(0, -3)
+           // Create the black hash
+           block.hash = SHA256(JSON.stringify(block)).toString()
            
+           // Add the current block to the blockchain
+           self.chain.push(block)
+           // Correct the height
+           self.height++
+
+           // Resolve the promise
+           resolve(block)
+
+
         });
     }
 
