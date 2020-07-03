@@ -44,6 +44,9 @@ class Block {
             self.hash = null
             // Recalculate the hash of the Block
             const recHash = SHA256(JSON.stringify(self).toString)
+            // Restore the block hash
+            self.hash = auxHash
+            
             // Comparing if the hashes changed
             (!auxHash == recHash)?
             // Returning the Block is not valid
