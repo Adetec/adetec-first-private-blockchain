@@ -203,12 +203,13 @@ class Blockchain {
                     stars.push(body)
                 }
 
-                if (stars.length > 0) {
-                    resolve(stars)
-                } else {
-                    reject(Error('No star'))
-                }
             });
+            
+            if (stars.length > 0) {
+                resolve(stars)
+            } else {
+                reject(Error('No star'))
+            }
         });
     }
 
