@@ -222,7 +222,22 @@ class Blockchain {
         let self = this;
         let errorLog = [];
         return new Promise(async (resolve, reject) => {
-            
+            // Store the first block hash as previous hash
+            let previousBlockHash = self.chain[0].hash
+            // Loop through each block
+            self.chain.forEach(async block => {
+                // Check validation
+                if (! await block.validate) {
+                    // If not valid
+                    errorLog.push(`Block ${block.hash} is not valid`)
+                }
+                // check the current block hash with the previous block hash
+                if (!block.height == 0 && !previousBlockHash == block.previousBlockHash) {
+                    errorLog.push('The bhain is broken')
+                }
+                // Set the current block hash as previous one for the next round
+                previousBlockHash = block.hash
+            });
         });
     }
 
