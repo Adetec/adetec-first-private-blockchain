@@ -66,7 +66,7 @@ class Blockchain {
         let chainLength = self.chain.length
         return new Promise(async (resolve, reject) => {
            // Check if there's a previous block
-           if (!self.height == 0) {
+           if (self.height > 0) {
                // retreive the previous block hash
                block.previousBlockHash = self.chain[chainLength - 1].hash
            }
