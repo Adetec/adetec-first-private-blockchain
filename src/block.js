@@ -46,7 +46,7 @@ class Block {
             const recHash = SHA256(JSON.stringify(self).toString)
             // Restore the block hash
             self.hash = auxHash
-            
+
             // Comparing if the hashes changed
             (!auxHash == recHash)?
             // Returning the Block is not valid
@@ -75,7 +75,8 @@ class Block {
         const parsedData = JSON.parse(decodedData)
 
         // Resolve with the data if the object isn't the Genesis block
-        if (!self.height == 0) {
+        if (parsedData && self.height > 0) {
+            console.log(parsedData)
             return parsedData
         } else {
             return {error: `It's the Genesis block with height ${self.height}`}
